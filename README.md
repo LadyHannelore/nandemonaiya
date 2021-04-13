@@ -7,9 +7,10 @@ Comparison between Process and Threads
 
 
 Group Members:
-Mohsin Shaikh		19k-1308
-Umer Zaidi			19k-0304
-Owais Khan			19k-1291
+
+1.Mohsin Shaikh		19k-1308
+2.Umer Zaidi			19k-0304
+3.Owais Khan			19k-1291
 
 
 
