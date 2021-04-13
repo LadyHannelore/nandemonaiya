@@ -18,6 +18,7 @@ Introduction:
 This project will compare the use of processes and threads by analyzing the performance for some algorithms written in C. Below are the sorting, matching, and series generation algorithms we will use for this purpose.
 Methodology:
 We will compare this two by using these series algorithms.
+
 1- Damerau–Levenshtein distance 
 A string-matching algorithm. It outputs the difference between two strings based on the number of changes required to transform one into the other.
 
