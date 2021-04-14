@@ -1,4 +1,4 @@
-# nandemoniaya
+# nandemonaiya
 OS Project
 Project Title:
 Comparison between Process and Threads
