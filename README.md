@@ -1,20 +1,20 @@
-# nandemonaiya
-OS Project
-Project Title:
-Comparison between Process and Threads
+# nandemoniaya
+
+## OS Project
+Project Title: Comparison between Process and Threads
 
  
 
 
-Group Members:
+## Group Members:
 
-1.Mohsin Shaikh		19k-1308
-2.Umer Zaidi			19k-0304
-3.Owais Khan			19k-1291
+- Mohsin Shaikh		19k-1308
+- Umer Zaidi			19k-0304
+- Owais Khan			19k-1291
 
 
 
-Introduction:
+## Introduction:
 This project will compare the use of processes and threads by analyzing the performance for some algorithms written in C. Below are the sorting, matching, and series generation algorithms we will use for this purpose.
 Methodology:
 We will compare this two by using these series algorithms.
