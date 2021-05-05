@@ -20,7 +20,7 @@ int catalonia()
     }
 
     }
-    printf("%d", catalan[9]);
+    printf("Catlan number at 9:\t%d\n", catalan[9]);
     return 0;
 }
 int lazy_cater()
@@ -33,10 +33,11 @@ int lazy_cater()
         N--;
     }while(N == 0);
 
-    printf("%d",N);
+    printf("Lazy caterer for 10:\t%d\n",N);
 }
 int triangular_series()
 {
+    printf("Triganular series\n");
     int n = 10;
     for (size_t i = 0; i < n; i++)
     {
@@ -47,6 +48,7 @@ int triangular_series()
         j = j + 1;
         k = k + j;
     }
+    printf("\n");
     }
     return 0;
 }
@@ -121,4 +123,13 @@ int d_levenshtein(char* s, char* t, int n, int m)
         }
     }
     return d[n][m];
+}
+
+int main(){
+catalonia();
+lazy_cater();
+triangular_series();
+taylor_series();
+printf("\nLevenstein for 'hello' and 'kilo':%d\n",d_levenshtein("hello","kilo",2,3));
+return 0;    
 }
