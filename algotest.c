@@ -27,3 +27,48 @@ double levenshtein_fork(char* str1, char* str2, int n, int m, int processes){
 	wait(NULL);
 	RETURN_TIME
 }
+int cat_fork()
+{
+	TIMER_START
+	for (size_t i = 0; i < count; i++)
+	{
+		/* code */
+	}
+	
+	wait(NULL);
+	RETURN_TIME
+
+}
+int lazy_fork()
+{
+	TIMER_START
+	for (size_t i = 0; i < count; i++)
+	{
+		/* code */
+	}
+	
+	wait(NULL);
+	RETURN_TIME
+}
+int trig_fork()
+{
+	TIMER_START
+	for (size_t i = 0; i < count; i++)
+	{
+		/* code */
+	}
+	
+	wait(NULL);
+	RETURN_TIME
+}
+int taylor_fork(int abc)
+{
+	TIMER_START
+	for (size_t i = 0; i < count; i++)
+	{
+		/* code */
+	}
+	
+	wait(NULL);
+	RETURN_TIME
+}

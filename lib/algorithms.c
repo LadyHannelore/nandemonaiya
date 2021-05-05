@@ -20,8 +20,8 @@ int catalonia()
     }
 
     }
-    printf("Catlan number at 9:\t%d\n", catalan[9]);
-    return 0;
+    
+    return catalan[9];
 }
 int lazy_cater()
 {
@@ -33,37 +33,26 @@ int lazy_cater()
         N--;
     }while(N == 0);
 
-    printf("Lazy caterer for 10:\t%d\n",N);
+    return N;
 }
 int triangular_series()
 {
-    printf("Triganular series\n");
-    int n = 10;
-    for (size_t i = 0; i < n; i++)
-    {
-        int m, j = 1, k = 1;
+    int i, j = 1, k = 1,n=10;
  
-    for (m = 1; m <= n; m++) {
+    for (i = 1; i <= n; i++) {
         printf(" %d ", k);
-        j = j + 1;
-        k = k + j;
+        j = j + 1; 
+        k = k + j; 
     }
-    printf("\n");
-    }
-    return 0;
 }
-int taylor_series()
+int taylor_series(int abc)
 {
    
-    int x,i;
-    int fact = 1,n = 10;
+    int x=abc,i;
+    int fact = 1,n=10;
     float sum=0;
 
-    printf("\n\nEnter the value of x in the series :  ");
-    scanf("%d",&x);
-
-   
-
+    
     for(i=1;i<n;i++)
     {
         fact = fact*i;
@@ -72,9 +61,7 @@ int taylor_series()
     }
     sum= sum +1; //Since series starts with 1
 
-    printf("\n\nThe sum of the taylor series is :  %.2f\n\n",sum);
-
-    return 0;
+    return sum;
 }
 int d_levenshtein(char* s, char* t, int n, int m)
 {
@@ -125,11 +112,3 @@ int d_levenshtein(char* s, char* t, int n, int m)
     return d[n][m];
 }
 
-int main(){
-catalonia();
-lazy_cater();
-triangular_series();
-taylor_series();
-printf("\nLevenstein for 'hello' and 'kilo':%d\n",d_levenshtein("hello","kilo",2,3));
-return 0;    
-}
