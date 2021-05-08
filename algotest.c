@@ -27,11 +27,16 @@ double levenshtein_fork(char* str1, char* str2, int n, int m, int processes){
 	wait(NULL);
 	RETURN_TIME
 }
-int cat_fork()
-{
+
+int cat_fork(int n, int processes) {
 	TIMER_START
-	for (size_t i = 0; i < count; i++)
-	{
+	for (size_t i = 0; i < processes; i++) {
+		pid_t pid;
+		pid = fork();
+		if(pid == 0){
+
+			exit(1);
+		}
 		/* code */
 	}
 	
@@ -39,33 +44,48 @@ int cat_fork()
 	RETURN_TIME
 
 }
-int lazy_fork()
-{
+
+int lazy_fork(int n, int processes) {
 	TIMER_START
-	for (size_t i = 0; i < count; i++)
-	{
+	for (size_t i = 0; i < processes; i++) {
+		pid_t pid;
+		pid = fork();
+		if(pid == 0){
+
+			exit(1);
+		}
 		/* code */
 	}
 	
 	wait(NULL);
 	RETURN_TIME
 }
-int trig_fork()
-{
+
+int trig_fork(int n, int processes) {
 	TIMER_START
-	for (size_t i = 0; i < count; i++)
-	{
+	for (size_t i = 0; i < processes; i++) {
+		pid_t pid;
+		pid = fork();
+		if(pid == 0){
+
+			exit(1);
+		}
 		/* code */
 	}
 	
 	wait(NULL);
 	RETURN_TIME
 }
-int taylor_fork(int abc)
-{
+
+int taylor_fork(int x, int processes) {
 	TIMER_START
-	for (size_t i = 0; i < count; i++)
-	{
+	for (size_t i = 0; i < processes; i++) {
+		pid_t pid;
+		pid = fork();
+		if(pid == 0){
+
+			exit(1);
+		}
 		/* code */
 	}
 	
