@@ -28,17 +28,17 @@ void generate_image(char* title, double* p_data, double* t_data, const int n) {
 	pclose(gp);
 }
 
-int main() {
-	char* title = "Levenshtein_Distance";
+void test_and_generate(char* title, int n, double (*process)(int, const int), double (*thread)(int, const int)) {
 	double fork_times[10] = {0}, thread_times[10] = {0};
-	// char* test[] = {"Bread", "Broad"};	
 
 	for(int p=0; p<10; p++){
-		fork_times[p] = levenshtein_fork(p);
-		thread_times[p] = levenshtein_thread(p);
+		fork_times[p] = process(n, p);
+		thread_times[p] = thread(n, p);
 	}
-
 	generate_image(title, fork_times, thread_times, 10);
-	
+
+}
+int main() {
+	test_and_generate("Levenshtein_Distance", 4, &levenshtein_fork, &levenshtein_thread);
     return 0;
 }

@@ -33,9 +33,8 @@ void* worker(void* func){
 
 }
 
-double levenshtein_fork(int processes){
+double levenshtein_fork(int n, int processes){
 	char* test_cases[] = {"France", "French", "Bread", "Broad"};
-	int n = 4;
 	int c = 0;
 	TIMER_START
 	for(int i=0; i<processes; i++){
@@ -52,9 +51,8 @@ double levenshtein_fork(int processes){
 	RETURN_TIME
 }
 
-double levenshtein_thread(const int threads) {
+double levenshtein_thread(int n, const int threads) {
 	char* test_cases[] = {"France", "French", "Bread", "Broad"};
-	int n = 4;
 	int c = 0;
 	pthread_t tid[threads];
 	TIMER_START
@@ -71,7 +69,7 @@ double levenshtein_thread(const int threads) {
 }
 
 
-int cat_fork(int n, int processes) {
+int cat_fork(int n, const int processes) {
 	TIMER_START
 	for (size_t i = 0; i < processes; i++) {
 		pid_t pid;
@@ -88,7 +86,7 @@ int cat_fork(int n, int processes) {
 
 }
 
-int lazy_fork(int n, int processes) {
+int lazy_fork(int n, const int processes) {
 	TIMER_START
 	for (size_t i = 0; i < processes; i++) {
 		pid_t pid;
@@ -104,7 +102,7 @@ int lazy_fork(int n, int processes) {
 	RETURN_TIME
 }
 
-int trig_fork(int n, int processes) {
+int trig_fork(int n, const int processes) {
 	TIMER_START
 	for (size_t i = 0; i < processes; i++) {
 		pid_t pid;
@@ -120,7 +118,7 @@ int trig_fork(int n, int processes) {
 	RETURN_TIME
 }
 
-int taylor_fork(int x, int processes) {
+int taylor_fork(int x, const int processes) {
 	TIMER_START
 	for (size_t i = 0; i < processes; i++) {
 		pid_t pid;
