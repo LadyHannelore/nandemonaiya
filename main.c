@@ -11,10 +11,10 @@ void generate_image(char* title, double* p_data, double* t_data, const int n) {
 				"set xlabel 'processes/threads'\n"
 				"set ylabel 'time'\n"
 				"set style line 1 lw 1 lc rgb '#990042' ps 2 pt 7 pi 1\n"
-				"set style line 2 lw 1 lc rgb '#0000FF' ps 2 pt 7 pi 1\n"
+				"set style line 2 lw 1 lc rgb '#2E8B57' ps 2 pt 7 pi 1\n"
 				"set terminal png\n"
 				"set output '%s.png'\n"
-				"plot '-' ls 1, '' ls 2\n", title, title);
+				"plot '-' title 'processes' ls 1, '' title 'threads' ls 2\n", title, title);
 	for(int i=0; i<n; i++){
 		fprintf(gp, "%d %lf\n", i, p_data[i]);
 	}
