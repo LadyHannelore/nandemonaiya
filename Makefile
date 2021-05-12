@@ -3,7 +3,7 @@ LIB_DIR = lib
 LIB_FILES = $(LIB_DIR)/algorithms.o
 OBJ_FILES = main.o algotest.o 
 TARGET = main
-LIBS = -lm
+LIBS = -lm -lpthread
 all: $(TARGET) 
 
 $(TARGET): $(OBJ_FILES) $(LIB_FILES)
