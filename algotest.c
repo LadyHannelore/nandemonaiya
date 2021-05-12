@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <string.h>
+#include <sys/mman.h>
 #define NANOSEC_PER_SEC 1E9
 
 #define TIMER_START clockid_t c_id = 0;\
@@ -16,11 +17,6 @@
 					return ( t_end.tv_sec - t_start.tv_sec ) + ( t_end.tv_nsec - t_start.tv_nsec ) / NANOSEC_PER_SEC;
 
 
-typedef struct test_args {
-	int n;
-	int (*func)(int, int);
-	char** arg_list;
-}test_args;
 
 
 void* levenshtein_worker(void* arg){
@@ -29,7 +25,8 @@ void* levenshtein_worker(void* arg){
 	pthread_exit(NULL);
 }
 
-void* worker(void* func){
+void* worker(void* arg){
+	int n = *(int *)arg;	
 
 }
 
@@ -67,21 +64,41 @@ double levenshtein_thread(int n, const int threads) {
 	}
 	RETURN_TIME
 }
-
+	static int *result;
 
 int cat_fork(int n, const int processes) {
 	TIMER_START
+	int chunk_size = n/processes;
+	int lower, upper = 1;
+	result = mmap(NULL, sizeof(result), PROT_READ | PROT_WRITE,
+					MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+	perror("mmap");
+
+	*result = 1;
 	for (size_t i = 0; i < processes; i++) {
 		pid_t pid;
+		lower = upper;
+		upper += chunk_size;
+		upper = (n+1 < upper) ? n+1 : upper;
+
 		pid = fork();
 		if(pid == 0){
-
+			printf("upper: %d, lower: %d\n", upper, lower);
+			int r = 1;
+			for(int k = lower; k < upper; k++){
+				r *= (4 * k - 2);
+				r /= (k+1);
+				printf("r: %d\n", r);
+			}
+			*result *= r;
 			exit(1);
 		}
 		/* code */
 	}
-	
-	wait(NULL);
+	for(int i=0; i< processes; i++)
+		wait(NULL);
+	printf("%d\n", *result);
+	munmap(result, sizeof(int));
 	RETURN_TIME
 
 }

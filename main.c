@@ -39,6 +39,7 @@ void test_and_generate(char* title, int n, double (*process)(int, const int), do
 
 }
 int main() {
-	test_and_generate("Levenshtein_Distance", 4, &levenshtein_fork, &levenshtein_thread);
+	// test_and_generate("Levenshtein_Distance", 4, &levenshtein_fork, &levenshtein_thread);
+	cat_fork(5, 1);
     return 0;
 }
