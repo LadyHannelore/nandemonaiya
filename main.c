@@ -31,15 +31,17 @@ void generate_image(char* title, double* p_data, double* t_data, const int n) {
 void test_and_generate(char* title, int n, double (*process)(int, const int), double (*thread)(int, const int)) {
 	double fork_times[10] = {0}, thread_times[10] = {0};
 
-	for(int p=0; p<10; p++){
+	for(int p=1; p<10; p++){
 		fork_times[p] = process(n, p);
 		thread_times[p] = thread(n, p);
 	}
 	generate_image(title, fork_times, thread_times, 10);
 
 }
+
 int main() {
 	// test_and_generate("Levenshtein_Distance", 4, &levenshtein_fork, &levenshtein_thread);
-	cat_fork(5, 1);
+	test_and_generate("Catalan_Series_n_500", 500, &cat_fork, &cat_thread); 
+
     return 0;
 }

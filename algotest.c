@@ -64,15 +64,16 @@ double levenshtein_thread(int n, const int threads) {
 	}
 	RETURN_TIME
 }
-	static int *result;
+	static double *result;
 
-int cat_fork(int n, const int processes) {
+double cat_fork(int n, const int processes) {
 	TIMER_START
 	int chunk_size = n/processes;
-	int lower, upper = 1;
+	int lower, upper = 2;
 	result = mmap(NULL, sizeof(result), PROT_READ | PROT_WRITE,
 					MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-	perror("mmap");
+	if(result == NULL)
+		perror("mmap");
 
 	*result = 1;
 	for (size_t i = 0; i < processes; i++) {
@@ -83,26 +84,60 @@ int cat_fork(int n, const int processes) {
 
 		pid = fork();
 		if(pid == 0){
-			printf("upper: %d, lower: %d\n", upper, lower);
-			int r = 1;
+			double r = 1;
 			for(int k = lower; k < upper; k++){
-				r *= (4 * k - 2);
-				r /= (k+1);
-				printf("r: %d\n", r);
+				r *= (n+k);
+				r /= k;
 			}
 			*result *= r;
 			exit(1);
 		}
-		/* code */
 	}
 	for(int i=0; i< processes; i++)
 		wait(NULL);
-	printf("%d\n", *result);
-	munmap(result, sizeof(int));
+	munmap(result, sizeof(double));
 	RETURN_TIME
-
 }
 
+void *catalan_worker(void *argv){
+	int *args = (int *)argv;
+	double *r = malloc(sizeof(double));
+	*r = 1;
+
+	for(int k = args[0]; k < args[1]; k++){
+		*r *= (args[2]+k);
+		*r /= k;
+	}
+	pthread_exit(r);
+}
+
+double cat_thread(int n, const int threads) {
+	TIMER_START
+	pthread_t tid[threads];
+	int chunk_size = n/threads;
+	int lower, upper = 2;
+	double result = 1;
+
+	for (size_t i = 0; i < threads; i++) {
+		lower = upper;
+		upper += chunk_size;
+		upper = (n+1 < upper) ? n+1 : upper;
+		int* argv = calloc(3, sizeof(int));
+		argv[0] = lower;
+		argv[1] = upper;
+		argv[2] = n;
+		pthread_create(&tid[i], NULL, catalan_worker, (void *)argv);
+
+	}
+	for(int i=0; i< threads; i++){
+		double *r;
+		pthread_join(tid[i], (void **)&r);
+		result *= *r;
+	}
+	// printf("%lf\n", result);
+
+	RETURN_TIME
+}
 int lazy_fork(int n, const int processes) {
 	TIMER_START
 	for (size_t i = 0; i < processes; i++) {
