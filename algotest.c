@@ -7,6 +7,7 @@
 #include <pthread.h>
 #include <string.h>
 #include <sys/mman.h>
+#include <math.h>
 #define NANOSEC_PER_SEC 1E9
 
 #define TIMER_START clockid_t c_id = 0;\
@@ -64,7 +65,8 @@ double levenshtein_thread(int n, const int threads) {
 	}
 	RETURN_TIME
 }
-	static double *result;
+
+static double *result;
 
 double cat_fork(int n, const int processes) {
 	TIMER_START
@@ -170,18 +172,89 @@ int trig_fork(int n, const int processes) {
 	RETURN_TIME
 }
 
-int taylor_fork(int x, const int processes) {
-	TIMER_START
-	for (size_t i = 0; i < processes; i++) {
-		pid_t pid;
-		pid = fork();
-		if(pid == 0){
+ void *power(void *arg) {
+	int x = *(int *)arg;
+	int* pwr = calloc(sizeof(int), 150);
+    for (int k = 0; k < 150; k++) {
+        pwr[k] = pow(x, k);
+        //printf("%.2Lf\n", pwr[k]);
+    }
+	pthread_exit(pwr);
+}
 
-			exit(1);
-		}
-		/* code */
-	}
+void *factorial(void *arg) {
+ 	double f;
+	double* fact = calloc(sizeof(double), 150);
+    fact[0] = 1.0;
+    for (int term = 1; term < 150; term++) {
+        f = 1.0;
+        for (int j = term; j > 0; j--)
+            f = f * j;
+        fact[term] = f;
+    }
+	pthread_exit(fact);
+}
+
+double taylor_thread(int x) {
+	TIMER_START
+	double sum = 0;
+	int* pwr;
+	double* fact;
+	pthread_t pwr_thread, fact_thread;
+	pthread_create(&pwr_thread, NULL, power, &x);
+	pthread_create(&fact_thread, NULL, factorial, NULL);
 	
+
+	pthread_join(pwr_thread, (void **)&pwr);
+
+	pthread_join(fact_thread, (void **)&fact);
+		
+    for (int i = 0; i < 150; i++)
+        sum = sum + (pwr[i] / fact[i]);
+
+	RETURN_TIME
+}
+
+
+double taylor_fork(int x) {
+	TIMER_START
+	double sum = 0;
+	int* pwr = calloc(sizeof(int), 150); 
+	double* fact = calloc(sizeof(int), 150);
+
+	pwr = mmap(NULL, sizeof(pwr), PROT_READ | PROT_WRITE,
+					MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+
+	fact = mmap(NULL, sizeof(fact), PROT_READ | PROT_WRITE,
+					MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+
+	if(fork() == 0){
+		for (int k = 0; k < 150; k++)
+			pwr[k] = pow(x, k);
+		exit(EXIT_SUCCESS);
+	}	
+
+	if(fork() == 0){
+		fact[0] = 1.0;
+		double f;
+		for (int term = 1; term < 150; term++) {
+			f = 1.0;
+			for (int j = term; j > 0; j--)
+				f = f * j;
+			fact[term] = f;
+		}
+		exit(EXIT_SUCCESS);
+	}
+
 	wait(NULL);
+	wait(NULL);
+
+
+    for (int i = 0; i < 150; i++)
+        sum = sum + (pwr[i] / fact[i]);
+
+	munmap(pwr, sizeof(int*));
+	munmap(fact, sizeof(double*));
+
 	RETURN_TIME
 }
