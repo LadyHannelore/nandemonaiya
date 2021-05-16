@@ -42,9 +42,9 @@ void test_and_generate(char* title, int n, double (*process)(int, const int), do
 void taylor_test(){
 	double taylor_thread_time[10] = {0}, taylor_fork_time[10] = {0};
 	int i = 0;
-	for(int i = 1; i<10; i++){
-		taylor_fork_time[i] = 1000.0*taylor_fork(i*20);
-		taylor_thread_time[i] = 1000.0*taylor_thread(i*20);
+	for(int i = 0; i<10; i++){
+		taylor_fork_time[i] = 1000.0*taylor_fork((i+1)*20);
+		taylor_thread_time[i] = 1000.0*taylor_thread((i+1)*20);
 	}
 
 	FILE *gp = popen("gnuplot", "w");
@@ -60,12 +60,12 @@ void taylor_test(){
 				"set output 'Taylor_Series.png'\n"
 				"plot '-' title 'processes' ls 1, '' title 'threads' ls 2\n");
 
-	for(int i=1; i<=10; i++){
-		fprintf(gp, "%d %lf\n", i*20, taylor_fork_time[i-1]);
+	for(int i=0; i<10; i++){
+		fprintf(gp, "%d %lf\n", (i+1)*20, taylor_fork_time[i]);
 	}
 	fprintf(gp, "e\n");
-	for(int i=1; i<10; i++){
-		fprintf(gp, "%d %lf\n", i*20, taylor_thread_time[i-1]);
+	for(int i=0; i<10; i++){
+		fprintf(gp, "%d %lf\n", (i+1)*20, taylor_thread_time[i]);
 	}
 
 	fprintf(gp, "e\n");
